@@ -3,8 +3,7 @@ import express from 'express';
 import FreetCollection from '../freet/collection';
 import UserCollection from './collection';
 import * as userValidator from '../user/middleware';
-import type {HydratedDocument} from 'mongoose';
-import type {User} from './model';
+import * as util from './util';
 
 const router = express.Router();
 
@@ -37,7 +36,7 @@ router.post(
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: 'You have logged in successfully',
-      user: constructUserResponse(user)
+      user: util.constructUserResponse(user)
     });
   }
 );
@@ -90,7 +89,7 @@ router.post(
     req.session.userId = user._id.toString();
     res.status(201).json({
       message: `Your account was created successfully. You have been logged in as ${user.username}`,
-      user: constructUserResponse(user)
+      user: util.constructUserResponse(user)
     });
   }
 );
@@ -120,7 +119,7 @@ router.put(
     const user = await UserCollection.updateOne(userId, req.body);
     res.status(200).json({
       message: 'Your profile was updated successfully.',
-      user: constructUserResponse(user)
+      user: util.constructUserResponse(user)
     });
   }
 );

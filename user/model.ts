@@ -1,5 +1,7 @@
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
+import {ReactionType} from '../freet/model';
+import type {RepProfile} from '../rep_profile/model';
 
 /**
  * This file defines the properties stored in a User
@@ -13,12 +15,15 @@ export type User = {
   password: string;
   dateJoined: Date;
   pistilPoints: number;
+  preferences: Types.ObjectId;
+  reactionHistory: ReactionType[];
+  doneWinds: Types.ObjectId[];
 };
 
 // Mongoose schema definition for interfacing with a MongoDB table
 // Users stored in this table will have these fields, with the
 // type given by the type property, inside MongoDB
-const UserSchema = new Schema({
+const UserSchema = new Schema<User>({
   // The user's username
   username: {
     type: String,
@@ -36,6 +41,19 @@ const UserSchema = new Schema({
   },
   pistilPoints: {
     type: Number,
+    required: true
+  },
+  preferences: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'REProfile'
+  },
+  reactionHistory: {
+    type: [String],
+    enum: Object.values(ReactionType)
+  },
+  doneWinds: {
+    type: [{type: Schema.Types.ObjectId, ref: 'TrendingWind'}],
     required: true
   }
 });
