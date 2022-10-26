@@ -5,6 +5,7 @@ import UserCollection from './collection';
 import * as userValidator from '../user/middleware';
 import type {HydratedDocument} from 'mongoose';
 import type {User} from './model';
+import {MSG_SUCCESS} from '../util';
 
 const router = express.Router();
 
@@ -35,10 +36,7 @@ router.post(
       req.body.username, req.body.password
     );
     req.session.userId = user._id.toString();
-    res.status(201).json({
-      message: 'You have logged in successfully',
-      user: constructUserResponse(user)
-    });
+    res.status(201).json(MSG_SUCCESS);
   }
 );
 
@@ -58,9 +56,7 @@ router.delete(
   ],
   (req: Request, res: Response) => {
     req.session.userId = undefined;
-    res.status(200).json({
-      message: 'You have been logged out successfully.'
-    });
+    res.status(200).json(MSG_SUCCESS);
   }
 );
 
@@ -88,10 +84,7 @@ router.post(
   async (req: Request, res: Response) => {
     const user = await UserCollection.addOne(req.body.username, req.body.password);
     req.session.userId = user._id.toString();
-    res.status(201).json({
-      message: `Your account was created successfully. You have been logged in as ${user.username}`,
-      user: constructUserResponse(user)
-    });
+    res.status(201).json(MSG_SUCCESS);
   }
 );
 
@@ -118,10 +111,7 @@ router.put(
   async (req: Request, res: Response) => {
     const userId = (req.session.userId as string) ?? ''; // Will not be an empty string since its validated in isUserLoggedIn
     const user = await UserCollection.updateOne(userId, req.body);
-    res.status(200).json({
-      message: 'Your profile was updated successfully.',
-      user: constructUserResponse(user)
-    });
+    res.status(200).json(MSG_SUCCESS);
   }
 );
 
@@ -143,9 +133,7 @@ router.delete(
     await UserCollection.deleteOne(userId);
     await FreetCollection.deleteMany(userId);
     req.session.userId = undefined;
-    res.status(200).json({
-      message: 'Your account has been deleted successfully.'
-    });
+    res.status(200).json(MSG_SUCCESS);
   }
 );
 

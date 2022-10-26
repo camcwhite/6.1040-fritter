@@ -16,7 +16,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
-- An object with user's details (without password)
 
 **Throws**
 
@@ -44,7 +43,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
-- An object with the created user's details (without password)
 
 **Throws**
 
@@ -62,7 +60,6 @@ This renders the `index.html` file that will be used to interact with the backen
 **Returns**
 
 - A success message
-- An object with the update user details (without password)
 
 **Throws**
 
