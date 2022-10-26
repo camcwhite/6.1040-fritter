@@ -1,6 +1,6 @@
 import type {Types, PopulatedDoc, Document} from 'mongoose';
 import {Schema, model} from 'mongoose';
-import { RepProfile } from '../rep_profile/model';
+import type {REProfile} from '../rep_profile/model';
 import type {User} from '../user/model';
 
 /**
@@ -10,7 +10,7 @@ import type {User} from '../user/model';
 
 export type ReactionCounts = {
   [key in ReactionType]: number
-}
+};
 
 // Type definition for Freet on the backend
 export type Freet = {
@@ -31,7 +31,7 @@ export type PopulatedFreet = {
   content: string;
   pistilPoints: number;
   attachments: string[];
-  recProfile: RepProfile;
+  recProfile: REProfile;
   reactionCounts: ReactionCounts;
 };
 

@@ -1,7 +1,7 @@
 import type {Types} from 'mongoose';
 import {Schema, model} from 'mongoose';
 import {ReactionType} from '../freet/model';
-import type {RepProfile} from '../rep_profile/model';
+import type {REProfile} from '../rep_profile/model';
 
 /**
  * This file defines the properties stored in a User

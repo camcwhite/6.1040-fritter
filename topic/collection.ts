@@ -1,96 +1,65 @@
 import type {HydratedDocument, Types} from 'mongoose';
-import type {User} from './model';
-import UserModel from './model';
+import type {Topic} from './model';
+import TopicModel from './model';
 
 /**
- * This file contains a class with functionality to interact with users stored
+ * This file contains a class with functionality to interact with topics stored
  * in MongoDB, including adding, finding, updating, and deleting. Feel free to add
  * additional operations in this file.
  *
- * Note: HydratedDocument<User> is the output of the UserModel() constructor,
- * and contains all the information in User. https://mongoosejs.com/docs/typescript.html
+ * Note: HydratedDocument<Topic> is the output of the TopicModel() constructor,
+ * and contains all the information in Topic. https://mongoosejs.com/docs/typescript.html
  */
-class UserCollection {
+class TopicCollection {
   /**
-   * Add a new user
+   * Add a new topic
    *
-   * @param {string} username - The username of the user
-   * @param {string} password - The password of the user
-   * @return {Promise<HydratedDocument<User>>} - The newly created user
+   * @param {string} name - The name of the topic
+   * @return {Promise<HydratedDocument<Topic>>} - The newly created topic
    */
-  static async addOne(username: string, password: string): Promise<HydratedDocument<User>> {
-    const dateJoined = new Date();
-
-    const user = new UserModel({username, password, dateJoined});
-    await user.save(); // Saves user to MongoDB
-    return user;
+  static async addOne(name: string): Promise<HydratedDocument<Topic>> {
+    const topic = new TopicModel({name});
+    await topic.save();
+    return topic;
   }
 
   /**
-   * Find a user by userId.
+   * Find a topic by topicId.
    *
-   * @param {string} userId - The userId of the user to find
-   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
+   * @param {string} topicId - The topicId of the topic to find
+   * @return {Promise<HydratedDocument<Topic>> | Promise<null>} - The topic with the given topicname, if any
    */
-  static async findOneByUserId(userId: Types.ObjectId | string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({_id: userId});
+  static async findOneById(topicId: Types.ObjectId | string): Promise<HydratedDocument<Topic>> {
+    return TopicModel.findOne({_id: topicId});
   }
 
   /**
-   * Find a user by username (case insensitive).
+   * Update topic's information
    *
-   * @param {string} username - The username of the user to find
-   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
+   * @param {string} topicId - The topicId of the topic to update
+   * @param {Object} topicDetails - An object with the topic's updated credentials
+   * @return {Promise<HydratedDocument<Topic>>} - The updated topic
    */
-  static async findOneByUsername(username: string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({username: new RegExp(`^${username.trim()}$`, 'i')});
-  }
-
-  /**
-   * Find a user by username (case insensitive).
-   *
-   * @param {string} username - The username of the user to find
-   * @param {string} password - The password of the user to find
-   * @return {Promise<HydratedDocument<User>> | Promise<null>} - The user with the given username, if any
-   */
-  static async findOneByUsernameAndPassword(username: string, password: string): Promise<HydratedDocument<User>> {
-    return UserModel.findOne({
-      username: new RegExp(`^${username.trim()}$`, 'i'),
-      password
-    });
-  }
-
-  /**
-   * Update user's information
-   *
-   * @param {string} userId - The userId of the user to update
-   * @param {Object} userDetails - An object with the user's updated credentials
-   * @return {Promise<HydratedDocument<User>>} - The updated user
-   */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: any): Promise<HydratedDocument<User>> {
-    const user = await UserModel.findOne({_id: userId});
-    if (userDetails.password) {
-      user.password = userDetails.password as string;
+  static async updateOne(topicId: Types.ObjectId | string, topicDetails: any): Promise<HydratedDocument<Topic>> {
+    const topic = await TopicModel.findOne({_id: topicId});
+    if (topicDetails.name) {
+      topic.name = topicDetails.name as string;
     }
 
-    if (userDetails.username) {
-      user.username = userDetails.username as string;
-    }
-
-    await user.save();
-    return user;
+    await topic.save();
+    return topic;
   }
 
   /**
-   * Delete a user from the collection.
+   * Delete a topic from the collection.
    *
-   * @param {string} userId - The userId of user to delete
-   * @return {Promise<Boolean>} - true if the user has been deleted, false otherwise
+   * @param {string} topicId - The topicId of topic to delete
+   * @return {Promise<Boolean>} - true if the topic has been deleted, false otherwise
    */
-  static async deleteOne(userId: Types.ObjectId | string): Promise<boolean> {
-    const user = await UserModel.deleteOne({_id: userId});
-    return user !== null;
+  static async deleteOne(topicId: Types.ObjectId | string): Promise<boolean> {
+    const topic = await TopicModel.deleteOne({_id: topicId});
+    return topic !== null;
   }
 }
 
-export default UserCollection;
+export default TopicCollection;
