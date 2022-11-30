@@ -80,7 +80,7 @@ This renders the `index.html` file that will be used to interact with the backen
 
 ## Freets
 
-#### `GET /api/feed` - Get the current user's feed of Freets
+#### `GET /api/freets/feed` - Get the current user's feed of Freets
 
 **Returns**
 - An array of freets
@@ -89,10 +89,10 @@ This renders the `index.html` file that will be used to interact with the backen
 
 - `403` if the user is not logged in
 
-#### `GET /api/freets` - Get the current user's Freets
+#### `GET /api/freets/history` - Get a list of previously-purchased Freets
 
 **Returns**
-- An array of Freets created by the logged-in user
+- An array of Freets
 
 **Throws**
 
